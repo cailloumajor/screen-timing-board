@@ -15,14 +15,13 @@ class FontAdjustingLabel(tk.Label):
         )
         self.configure(font=self.font)
         while self.winfo_reqheight() < ht:
-            self.font["size"] = self.font["size"] - 1
+            self.font["size"] -= 1
             self.update_idletasks()
 
 
 class App(tk.Frame):
     def __init__(self, master):
         super().__init__(master)
-        self.configure(bg="black")
         self.grid(sticky="nsew")
 
         screen_height = self.winfo_screenheight()
@@ -32,7 +31,7 @@ class App(tk.Frame):
         logo = Image.open("logo.png")
         logo.thumbnail((screen_width, logo_height))
         logo_tk = ImageTk.PhotoImage(logo)
-        self.logo = tk.Label(self, image=logo_tk, bg="black")
+        self.logo = tk.Label(self, image=logo_tk, bg="white")
         # Keep a reference to avoid garbage collection
         self.logo.image = logo_tk
 
@@ -72,7 +71,6 @@ class App(tk.Frame):
 if __name__ == "__main__":
     root = tk.Tk()
     root.columnconfigure(0, weight=1)
-    root.rowconfigure(0, weight=1)
     root.attributes("-fullscreen", 1)
     board = App(root)
     board.mainloop()
