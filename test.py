@@ -9,9 +9,7 @@ class FontAdjustingLabel(tk.Label):
     def __init__(self, ht, master, **kwargs):
         super().__init__(master=master, **kwargs)
         self.font = tkfont.Font(
-            family="Liberation Sans",
-            weight="bold",
-            size=-(ht // 2)
+            family="Liberation Sans", weight="bold", size=-(ht // 2)
         )
         self.configure(font=self.font)
         while self.winfo_reqheight() < ht:
@@ -36,20 +34,12 @@ class App(tk.Frame):
         self.logo.image = logo_tk
 
         self.instruction = FontAdjustingLabel(
-            logo_height,
-            self,
-            text="BOX",
-            bg="black",
-            fg="dark violet"
+            logo_height, self, text="BOX", bg="black", fg="dark violet"
         )
 
         timing_height = screen_height - logo_height
         self.timing = FontAdjustingLabel(
-            timing_height,
-            self,
-            text="00.0",
-            bg="black",
-            fg="yellow"
+            timing_height, self, text="00.0", bg="black", fg="yellow"
         )
 
         self.logo.grid(row=0, column=0, sticky="nw")
