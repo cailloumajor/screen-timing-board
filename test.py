@@ -6,7 +6,7 @@ from PIL import Image, ImageTk
 
 class FontAdjustingLabel(tk.Label):
 
-    def __init__(self, ht: int, master: tk.Widget, **kwargs: str) -> None:
+    def __init__(self, ht, master, **kwargs):
         super().__init__(master=master, **kwargs)
         self.font = tkfont.Font(
             family="Liberation Sans",
@@ -14,19 +14,19 @@ class FontAdjustingLabel(tk.Label):
             size=-(ht // 2)
         )
         self.configure(font=self.font)
-        while self.winfo_reqheight() < ht:  # type: ignore
+        while self.winfo_reqheight() < ht:
             self.font["size"] = self.font["size"] - 1
-            self.update_idletasks()  # type: ignore
+            self.update_idletasks()
 
 
 class App(tk.Frame):
-    def __init__(self, master: tk.Tk) -> None:
+    def __init__(self, master):
         super().__init__(master)
-        # self.configure(bg="black")
+        self.configure(bg="black")
         self.grid(sticky="nsew")
 
-        screen_height = self.winfo_screenheight()  # type: ignore
-        screen_width = self.winfo_screenwidth()  # type: ignore
+        screen_height = self.winfo_screenheight()
+        screen_width = self.winfo_screenwidth()
 
         logo_height = int(screen_height / 3)
         logo = Image.open("logo.png")
@@ -34,7 +34,7 @@ class App(tk.Frame):
         logo_tk = ImageTk.PhotoImage(logo)
         self.logo = tk.Label(self, image=logo_tk, bg="black")
         # Keep a reference to avoid garbage collection
-        self.logo.image = logo_tk  # type: ignore
+        self.logo.image = logo_tk
 
         self.instruction = FontAdjustingLabel(
             logo_height,
