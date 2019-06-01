@@ -37,7 +37,6 @@ class App(tk.Frame):
         self.logo.image = logo_tk
 
         self.instruction = FontAdjustingLabel(
-            # logo_height, self, text="BOX", bg="black", fg="dark violet"
             logo_height, self, bg="black", fg="dark violet"
         )
 
