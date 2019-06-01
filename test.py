@@ -3,9 +3,10 @@ import tkinter.font as tkfont
 
 from PIL import Image, ImageTk
 
+INSTRUCTIONS = ["", "BOX", "FUEL", "SLOW", "GAZZZ"]
+
 
 class FontAdjustingLabel(tk.Label):
-
     def __init__(self, ht, master, **kwargs):
         super().__init__(master=master, **kwargs)
         self.font = tkfont.Font(
@@ -20,6 +21,8 @@ class FontAdjustingLabel(tk.Label):
 class App(tk.Frame):
     def __init__(self, master):
         super().__init__(master)
+        self.input_buffer = ""
+
         self.grid(sticky="nsew")
 
         screen_height = self.winfo_screenheight()
@@ -34,7 +37,8 @@ class App(tk.Frame):
         self.logo.image = logo_tk
 
         self.instruction = FontAdjustingLabel(
-            logo_height, self, text="BOX", bg="black", fg="dark violet"
+            # logo_height, self, text="BOX", bg="black", fg="dark violet"
+            logo_height, self, bg="black", fg="dark violet"
         )
 
         timing_height = screen_height - logo_height
@@ -48,7 +52,34 @@ class App(tk.Frame):
 
         self.columnconfigure(1, weight=1)
 
+        self.bind("<Key>", self.cb_key)
+        self.focus_set()
+
         self.flash()
+
+    def cb_key(self, event):
+        if not self.input_buffer and event.char in "*/-" or event.char.isdigit():
+            self.input_buffer += event.char
+        elif self.input_buffer and event.keysym in ("Return", "KP_Enter"):
+            self.parse_command()
+
+    def parse_command(self):
+        command = self.input_buffer
+        self.input_buffer = ""
+        if command.startswith("*"):
+            try:
+                index = int(command[1:])
+                self.instruction["text"] = INSTRUCTIONS[index]
+            except (ValueError, IndexError):
+                pass
+        elif command.startswith("-"):
+            if len(command[1:]) == 1:
+                self.instruction["text"] = "T " + command
+        elif command.startswith("/"):
+            if 1 <= len(command[1:]) <= 2:
+                self.instruction["text"] = "P " + command[1:]
+        elif len(command) == 3:
+            self.timing["text"] = ".".join((command[:2], command[2:]))
 
     def flash(self) -> None:
         bg = self.instruction["bg"]
