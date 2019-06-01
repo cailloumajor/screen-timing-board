@@ -90,7 +90,8 @@ class App(tk.Frame):
 
 if __name__ == "__main__":
     root = tk.Tk()
+    root.geometry("{}x{}".format(root.winfo_screenwidth(), root.winfo_screenheight()))
+    root.attributes("-fullscreen", True)
     root.columnconfigure(0, weight=1)
-    root.attributes("-fullscreen", 1)
     board = App(root)
     board.mainloop()
