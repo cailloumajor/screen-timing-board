@@ -92,5 +92,6 @@ if __name__ == "__main__":
     root.geometry("{}x{}".format(root.winfo_screenwidth(), root.winfo_screenheight()))
     root.attributes("-fullscreen", True)
     root.columnconfigure(0, weight=1)
+    root.bind_all("<Quadruple-BackSpace>", lambda e: root.destroy())
     board = App(root)
     board.mainloop()
