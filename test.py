@@ -51,8 +51,7 @@ class App(tk.Frame):
 
         self.columnconfigure(1, weight=1)
 
-        self.bind("<Key>", self.cb_key)
-        self.focus_set()
+        self.bind_all("<Key>", self.cb_key)
 
         self.flash()
 
