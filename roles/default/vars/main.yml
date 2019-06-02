@@ -1,0 +1,12 @@
+---
+packages:
+  - fonts-liberation2
+  - numlockx
+  - python3-pil
+  - python3-pil.imagetk
+  - python3-tk
+  - x11-xserver-utils
+  - xinit
+  - xserver-xorg
+  - xserver-xorg-input-libinput
+  - xserver-xorg-video-fbturbo

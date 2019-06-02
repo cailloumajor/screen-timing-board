@@ -1,0 +1,22 @@
+---
+- name: install required packages
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    install_recommends: no
+    state: present
+    update_cache: yes
+
+- name: copy script and logo
+  copy:
+    src: "{{ item }}"
+    dest: "{{ deploy_dir }}/"
+  loop:
+    - "{{ script }}"
+    - logo.png
+
+- name: write .xsession file
+  template:
+    src: .xsession.j2
+    dest: "{{ ansible_user_dir }}/.xsession"
+    force: yes

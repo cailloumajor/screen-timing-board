@@ -1,0 +1,4 @@
+# {{ ansible_managed }}
+xmodmap -e "keycode 77="
+numlockx on
+exec python3.5 {{ deploy_dir }}/{{ script }}

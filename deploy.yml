@@ -1,0 +1,7 @@
+---
+- hosts: timing_board_controller
+  roles:
+    - default
+  vars:
+    deploy_dir: "{{ ansible_user_dir }}/screen-timing-board"
+    script: test.py
