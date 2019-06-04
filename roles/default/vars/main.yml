@@ -1,5 +1,6 @@
 ---
 packages:
+  - fonts-font-awesome
   - fonts-liberation2
   - numlockx
   - python3-pil

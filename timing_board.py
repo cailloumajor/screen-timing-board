@@ -90,9 +90,14 @@ class App(tk.Frame):
 
 if __name__ == "__main__":
     root = tk.Tk()
-    root.geometry("{}x{}".format(root.winfo_screenwidth(), root.winfo_screenheight()))
+    scrwidth = root.winfo_screenwidth()
+    scrheight = root.winfo_screenheight()
+    root.geometry("{}x{}".format(scrwidth, scrheight))
     root.attributes("-fullscreen", True)
     root.columnconfigure(0, weight=1)
     root.bind_all("<Quadruple-BackSpace>", lambda e: root.destroy())
+    wait_label = tk.Label(text="\uf017", font=("FontAwesome", scrheight // 5))
+    wait_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
     board = App(root)
+    wait_label.destroy()
     board.mainloop()
