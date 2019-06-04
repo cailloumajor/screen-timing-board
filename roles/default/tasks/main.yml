@@ -7,13 +7,11 @@
     state: present
     update_cache: yes
 
-- name: copy script and logo
+- name: copy files to deploy
   copy:
     src: "{{ item }}"
     dest: "{{ deploy_dir }}/"
-  loop:
-    - "{{ script }}"
-    - logo.png
+  loop: "{{ deploy_files }}"
 
 - name: write .xsession file
   template:

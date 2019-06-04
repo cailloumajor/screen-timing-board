@@ -4,4 +4,7 @@
     - default
   vars:
     deploy_dir: "{{ ansible_user_dir }}/screen-timing-board"
-    script: test.py
+    deploy_files:
+      - "{{ main_script }}"
+      - logo.png
+    main_script: timing_board.py
