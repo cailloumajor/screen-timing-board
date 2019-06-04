@@ -1,5 +1,6 @@
 import tkinter as tk
 import tkinter.font as tkfont
+from pathlib import Path
 
 from PIL import Image, ImageTk
 
@@ -29,7 +30,7 @@ class App(tk.Frame):
         screen_width = self.winfo_screenwidth()
 
         logo_height = int(screen_height / 3)
-        logo = Image.open("logo.png")
+        logo = Image.open(Path(__file__).parent / "logo.png")
         logo.thumbnail((screen_width, logo_height))
         logo_tk = ImageTk.PhotoImage(logo)
         self.logo = tk.Label(self, image=logo_tk, bg="white")
