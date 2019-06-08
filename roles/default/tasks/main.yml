@@ -11,6 +11,7 @@
   copy:
     src: "{{ item }}"
     dest: "{{ deploy_dir }}/"
+    mode: preserve
   loop: "{{ deploy_files }}"
 
 - name: write .xsession file
