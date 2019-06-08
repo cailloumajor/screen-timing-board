@@ -4,7 +4,8 @@ from pathlib import Path
 
 from PIL import Image, ImageTk
 
-INSTRUCTIONS = ["", "BOX", "FUEL", "SLOW", "GAZZZ"]
+INSTRUCTIONS = ["", "BOX", "S&G"]
+INITIAL_TOP = "#44"
 
 
 class FontAdjustingLabel(tk.Label):
@@ -29,7 +30,7 @@ class App(tk.Frame):
         screen_height = self.winfo_screenheight()
         screen_width = self.winfo_screenwidth()
 
-        logo_height = int(screen_height / 3)
+        logo_height = screen_height // 4
         logo = Image.open(Path(__file__).parent / "logo.png")
         logo.thumbnail((screen_width, logo_height))
         logo_tk = ImageTk.PhotoImage(logo)
@@ -37,18 +38,18 @@ class App(tk.Frame):
         # Keep a reference to avoid garbage collection
         self.logo.image = logo_tk
 
-        self.instruction = FontAdjustingLabel(
-            logo_height, self, bg="black", fg="dark violet"
+        self.topline = FontAdjustingLabel(
+            logo_height, self, text=INITIAL_TOP, bg="dark violet", fg="black"
         )
 
         timing_height = screen_height - logo_height
-        self.timing = FontAdjustingLabel(
+        self.bottomline = FontAdjustingLabel(
             timing_height, self, text="00.0", bg="black", fg="yellow"
         )
 
         self.logo.grid(row=0, column=0, sticky="nw")
-        self.instruction.grid(row=0, column=1, sticky="nsew")
-        self.timing.grid(row=1, columnspan=2, sticky="nsew")
+        self.topline.grid(row=0, column=1, sticky="nsew")
+        self.bottomline.grid(row=1, columnspan=2, sticky="nsew")
 
         self.columnconfigure(1, weight=1)
 
@@ -65,26 +66,28 @@ class App(tk.Frame):
     def parse_command(self):
         command = self.input_buffer
         self.input_buffer = ""
-        if command.startswith("*"):
-            try:
-                index = int(command[1:])
-                self.instruction["text"] = INSTRUCTIONS[index]
-            except (ValueError, IndexError):
-                pass
+        if command == "*0":
+            self.topline["text"] = INITIAL_TOP
         elif command.startswith("-"):
             if len(command[1:]) == 1:
-                self.instruction["text"] = "T " + command
+                self.topline["text"] = "T " + command
         elif command.startswith("/"):
             if 1 <= len(command[1:]) <= 2:
-                self.instruction["text"] = "P " + command[1:]
+                self.topline["text"] = "P " + command[1:]
+        elif len(command) == 1:
+            try:
+                index = int(command)
+                self.bottomline["text"] = INSTRUCTIONS[index]
+            except (ValueError, IndexError):
+                pass
         elif len(command) == 3:
-            self.timing["text"] = ".".join((command[:2], command[2:]))
+            self.bottomline["text"] = ".".join((command[:2], command[2:]))
 
     def flash(self) -> None:
-        bg = self.instruction["bg"]
-        fg = self.instruction["fg"]
-        if self.instruction["text"] or bg != "black":
-            self.instruction.configure(bg=fg, fg=bg)
+        bg = self.bottomline["bg"]
+        fg = self.bottomline["fg"]
+        if self.bottomline["text"] in INSTRUCTIONS[1:] or bg != "black":
+            self.bottomline.configure(bg=fg, fg=bg)
         self.after(500, self.flash)
 
 
