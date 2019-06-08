@@ -1,3 +1,4 @@
+#!/usr/bin/env ansible-playbook
 ---
 - hosts: timing_board_controller
   roles:
