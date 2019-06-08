@@ -19,3 +19,20 @@
     src: .xsession.j2
     dest: "{{ ansible_user_dir }}/.xsession"
     force: yes
+
+- name: configure nodm
+  become: yes
+  lineinfile:
+    path: /etc/default/nodm
+    regexp: '{{ item.regexp }}'
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+    - regexp: '^NODM_ENABLED='
+      line: "NODM_ENABLED=true"
+    - regexp: '^NODM_USER='
+      line: "NODM_USER={{ ansible_user_id }}"
+    - regexp: '^NODM_X_TIMEOUT='
+      line: "NODM_X_TIMEOUT=30"
+  notify:
+    - restart nodm

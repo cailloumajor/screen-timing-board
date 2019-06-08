@@ -2,6 +2,7 @@
 packages:
   - fonts-font-awesome
   - fonts-liberation2
+  - nodm
   - numlockx
   - python3-pil
   - python3-pil.imagetk

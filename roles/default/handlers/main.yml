@@ -1,0 +1,7 @@
+---
+- name: restart nodm
+  become: yes
+  systemd:
+    name: nodm
+    state: restarted
+    daemon_reload: yes
