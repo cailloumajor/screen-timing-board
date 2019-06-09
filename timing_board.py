@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import subprocess
 import tkinter as tk
 import tkinter.font as tkfont
 from pathlib import Path
@@ -67,7 +68,11 @@ class App(tk.Frame):
     def parse_command(self):
         command = self.input_buffer
         self.input_buffer = ""
-        if command == "*0":
+        if command == "*9998":
+            subprocess.run(["sudo", "-n", "reboot"])
+        elif command == "*9999":
+            subprocess.run(["sudo", "-n", "poweroff"])
+        elif command == "*0":
             self.topline["text"] = INITIAL_TOP
         elif command.startswith("-"):
             if len(command[1:]) == 1:
