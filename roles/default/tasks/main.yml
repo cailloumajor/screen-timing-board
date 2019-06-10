@@ -13,12 +13,16 @@
     dest: "{{ deploy_dir }}/"
     mode: preserve
   loop: "{{ deploy_files }}"
+  notify:
+    - restart nodm
 
 - name: write .xsession file
   template:
     src: .xsession.j2
     dest: "{{ ansible_user_dir }}/.xsession"
     force: yes
+  notify:
+    - restart nodm
 
 - name: configure nodm
   become: yes
