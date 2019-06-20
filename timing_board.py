@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import itertools
+import random
 import subprocess
 import tkinter as tk
 import tkinter.font as tkfont
@@ -8,6 +10,15 @@ from PIL import Image, ImageTk
 
 INSTRUCTIONS = ["", "BOX", "S&G"]
 INITIAL_TOP = "#44"
+
+
+demo_commands = itertools.cycle([
+    str(random.randint(400, 599)),
+    "/{}".format(random.randint(1, 20)),
+    "1",
+    "-{}".format(random.randint(1, 9)),
+    "2",
+])
 
 
 class FontAdjustingLabel(tk.Label):
@@ -72,6 +83,9 @@ class App(tk.Frame):
             subprocess.run(["sudo", "-n", "reboot"])
         elif command == "*9999":
             subprocess.run(["sudo", "-n", "poweroff"])
+        elif command == "*8888":
+            self.unbind_all("<Key>")
+            self.demo()
         elif command == "*0":
             self.topline["text"] = INITIAL_TOP
         elif command.startswith("-"):
@@ -95,6 +109,11 @@ class App(tk.Frame):
         if self.bottomline["text"] in INSTRUCTIONS[1:] or bg != "black":
             self.bottomline.configure(bg=fg, fg=bg)
         self.after(500, self.flash)
+
+    def demo(self):
+        self.input_buffer = next(demo_commands)
+        self.parse_command()
+        self.after(3000, self.demo)
 
 
 if __name__ == "__main__":
