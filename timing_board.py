@@ -29,6 +29,11 @@ class FontAdjustingLabel(tk.Label):
         while self.winfo_reqheight() < ht:
             self.font["size"] -= 1
             self.update_idletasks()
+        self.optimal_font_size = self.font["size"]
+
+    def reset_font_size(self):
+        self.font["size"] = self.optimal_font_size
+        self.update_idletasks()
 
 
 class App(tk.Frame):
@@ -55,19 +60,37 @@ class App(tk.Frame):
         )
 
         bottomline_height = screen_height - logo_height
+        self.bottomline_text = tk.StringVar()
+        self.bottomline_text.set("00.0")
+        self.bottomline_text.trace("w", self.cb_bottomline_text)
         self.bottomline = FontAdjustingLabel(
-            bottomline_height, self, text="00.0", bg="black", fg="yellow"
+            bottomline_height,
+            self,
+            textvariable=self.bottomline_text,
+            bg="black",
+            fg="yellow",
         )
 
         self.logo.grid(row=0, column=0, sticky="nw")
         self.topline.grid(row=0, column=1, sticky="nsew")
         self.bottomline.grid(row=1, columnspan=2, sticky="nsew")
+        self.grid_rowconfigure(1, minsize=bottomline_height)
 
         self.columnconfigure(1, weight=1)
 
         self.bind_all("<Key>", self.cb_key)
 
         self.flash()
+
+    def cb_bottomline_text(self, *args):
+        self.bottomline.reset_font_size()
+        width = self.bottomline.winfo_width()
+        pady = 0
+        while self.bottomline.winfo_reqwidth() > width:
+            self.bottomline.font["size"] += 2
+            pady += 1
+            self.bottomline.update_idletasks()
+        self.bottomline.grid(row=1, columnspan=2, ipady=pady, sticky="nsew")
 
     def cb_key(self, event):
         if not self.input_buffer and event.char in "*/-" or event.char.isdigit():
@@ -96,16 +119,16 @@ class App(tk.Frame):
         elif len(command) == 1:
             try:
                 index = int(command)
-                self.bottomline["text"] = INSTRUCTIONS[index]
+                self.bottomline_text.set(INSTRUCTIONS[index])
             except (ValueError, IndexError):
                 pass
         elif len(command) == 3:
-            self.bottomline["text"] = ".".join((command[:2], command[2:]))
+            self.bottomline_text.set(".".join((command[:2], command[2:])))
 
     def flash(self) -> None:
         bg = self.bottomline["bg"]
         fg = self.bottomline["fg"]
-        if self.bottomline["text"] in INSTRUCTIONS[1:] or bg != "black":
+        if self.bottomline_text.get() in INSTRUCTIONS[1:] or bg != "black":
             self.bottomline.configure(bg=fg, fg=bg)
         self.after(500, self.flash)
 
