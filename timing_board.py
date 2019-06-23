@@ -7,7 +7,7 @@ from pathlib import Path
 
 from PIL import Image, ImageTk
 
-INSTRUCTIONS = ["", "BOX", "S&G", "✌"]
+INSTRUCTIONS = ["", "BOX", "S&G", "LIGHT", "✌"]  # ᗡ⚟
 INITIAL_TOP = "#44"
 
 
