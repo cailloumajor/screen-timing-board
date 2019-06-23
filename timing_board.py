@@ -54,9 +54,9 @@ class App(tk.Frame):
             logo_height, self, text=INITIAL_TOP, bg="dark violet", fg="black"
         )
 
-        timing_height = screen_height - logo_height
+        bottomline_height = screen_height - logo_height
         self.bottomline = FontAdjustingLabel(
-            timing_height, self, text="00.0", bg="black", fg="yellow"
+            bottomline_height, self, text="00.0", bg="black", fg="yellow"
         )
 
         self.logo.grid(row=0, column=0, sticky="nw")
