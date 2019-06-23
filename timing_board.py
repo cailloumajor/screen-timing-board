@@ -7,7 +7,7 @@ from pathlib import Path
 
 from PIL import Image, ImageTk
 
-INSTRUCTIONS = ["", "BOX", "S&G"]
+INSTRUCTIONS = ["", "BOX", "S&G", "✌"]
 INITIAL_TOP = "#44"
 
 
@@ -61,7 +61,7 @@ class App(tk.Frame):
 
         bottomline_height = screen_height - logo_height
         self.bottomline_text = tk.StringVar()
-        self.bottomline_text.set("00.0")
+        self.bottomline_text.set(INSTRUCTIONS[-1])
         self.bottomline_text.trace("w", self.cb_bottomline_text)
         self.bottomline = FontAdjustingLabel(
             bottomline_height,
@@ -128,7 +128,7 @@ class App(tk.Frame):
     def flash(self) -> None:
         bg = self.bottomline["bg"]
         fg = self.bottomline["fg"]
-        if self.bottomline_text.get() in INSTRUCTIONS[1:] or bg != "black":
+        if self.bottomline_text.get() in INSTRUCTIONS[1:-1] or bg != "black":
             self.bottomline.configure(bg=fg, fg=bg)
         self.after(500, self.flash)
 
