@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import itertools
 import random
 import subprocess
 import tkinter as tk
@@ -12,13 +11,12 @@ INSTRUCTIONS = ["", "BOX", "S&G"]
 INITIAL_TOP = "#44"
 
 
-demo_commands = itertools.cycle([
-    str(random.randint(400, 599)),
-    "/{}".format(random.randint(1, 20)),
-    "1",
-    "-{}".format(random.randint(1, 9)),
-    "2",
-])
+def demo_command():
+    while True:
+        yield str(random.randint(400, 599))
+        yield "/{}".format(random.randint(1, 30))
+        yield str(random.randrange(1, len(INSTRUCTIONS)))
+        yield "-{}".format(random.randint(1, 9))
 
 
 class FontAdjustingLabel(tk.Label):
@@ -37,6 +35,7 @@ class App(tk.Frame):
     def __init__(self, master):
         super().__init__(master)
         self.input_buffer = ""
+        self.demo_generator = demo_command()
 
         self.grid(sticky="nsew")
 
@@ -111,7 +110,7 @@ class App(tk.Frame):
         self.after(500, self.flash)
 
     def demo(self):
-        self.input_buffer = next(demo_commands)
+        self.input_buffer = next(self.demo_generator)
         self.parse_command()
         self.after(3000, self.demo)
 
