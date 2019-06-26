@@ -1,0 +1,115 @@
+\documentclass[a4paper,french,12pt]{article}
+
+\usepackage{array}
+\usepackage{babel}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{fontawesome5}
+\usepackage{multicol}
+\usepackage{pifont}
+\usepackage{fontspec}
+  \setmainfont{Liberation Sans}
+\usepackage[%
+  top=0cm,
+  left=1.5cm,
+  right=1.5cm,
+  nomarginpar,
+  headsep=-1.5cm
+]{geometry}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{multirow}
+\usepackage{titling}
+\usepackage{scrextend}
+\usepackage{sectsty}
+\usepackage{xcolor}
+\usepackage[os=win]{menukeys}
+  \renewmenumacro{\keys}{shadowedroundedkeys}
+
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\setlength{\headheight}{3.5cm}
+\fancyhead[C]{\includegraphics[height=3cm]{logo.png}}
+\fancyfoot{}
+
+\pretitle{\begin{center}\LARGE}
+\posttitle{\\\Large Manuel d'utilisation\par\end{center}\vspace{0.5em}}
+\title{Écran de panneautage}
+\preauthor{}
+\author{}
+\postauthor{}
+\predate{}
+\date{}
+\postdate{}
+
+\sectionfont{\large}
+\subsectionfont{\normalsize}
+
+\newcommand{\scrtopline}[1]{%
+  \colorbox{black}{\makebox[5em]{\strut\textcolor[RGB]{148,0,211}{\textbf{#1}}}}%
+}
+\newcommand{\scrbline}[1]{%
+\colorbox{black}{\makebox[5em]{\large\bfseries\strut\textcolor{yellow}{#1}}}%
+}
+\newcommand{\scrblineblink}[1]{%
+  \colorbox{black}{\makebox[5em]{\large\bfseries\strut\textcolor{yellow}{#1}}}%
+  \,\faExchange*\,%
+  \colorbox{yellow}{\makebox[5em]{\large\bfseries\strut\textcolor{black}{#1}}}%
+}
+
+\begin{document}
+\maketitle
+
+\thispagestyle{fancy}
+
+\section*{Affichage en partie supérieure (à droite du logo)}
+\begin{tabular}{llll}
+  \toprule
+  Information à afficher & Commande & Exemples & Résultat \\
+  \midrule
+  \multirow{2}{*}{Position} &
+  \multirow{2}{*}{\(/0 \Rightarrow  /99\)} &
+     \keys{/}~\keys{2}~\keys{\enter} & \scrtopline{P 2} \\ \addlinespace[2pt]
+  && \keys{/}~\keys{3}~\keys{1}~\keys{\enter} & \scrtopline{P 31} \\
+  \addlinespace
+  \multirow{2}{*}{Tours restants} &
+  \multirow{2}{*}{\(-0 \Rightarrow  -9\)} &
+     \keys{-}~\keys{1}~\keys{\enter} & \scrtopline{T -1} \\ \addlinespace[2pt]
+  && \keys{-}~\keys{7}~\keys{\enter} & \scrtopline{T -7} \\
+  \addlinespace
+  Affichage initial & \( *0 \) & \keys{*}~\keys{0}~\keys{\enter} & \scrtopline{\# 44} \\
+  \bottomrule
+\end{tabular}
+
+\section*{Affichage en partie inférieure}
+\begin{tabular}{llll}
+  \toprule
+  Information à afficher & Commande & Exemples & Résultat \\
+  \midrule
+  \multirow{2}{*}[-2.8ex]{Temps au tour} &
+  \multirow{2}{*}[-2.8ex]{\(000 \Rightarrow 999\)} &
+     \keys{0}~\keys{9}~\keys{3}~\keys{\enter} & \scrbline{09.3} \\ \addlinespace[2pt]
+  && \keys{4}~\keys{7}~\keys{8}~\keys{\enter} & \scrbline{47.8} \\ \addlinespace[2pt]
+  && \keys{3}~\keys{8}~\keys{0}~\keys{\enter} & \scrbline{38.0} \\
+  \addlinespace
+  Retour au stand & \(1\) & \keys{1}~\keys{\enter} & \scrblineblink{BOX} \\
+  \addlinespace
+  Stop \& Go & \(2\) & \keys{2}~\keys{\enter} & \scrblineblink{S\&G} \\
+  \addlinespace
+  Allumer les feux & \(3\) & \keys{3}~\keys{\enter} & \scrblineblink{LIGHT} \\
+  \addlinespace
+  {\Large\ding{44}} & \(4\) & \keys{4}~\keys{\enter} & \scrbline{\ding{44}} \\
+  \bottomrule
+\end{tabular}
+
+\section*{Autres commandes}
+\begin{multicols}{2}
+  \begin{labeling}{Redémarrer}
+  \item[Redémarrer] \keys{*}~\keys{9}~\keys{9}~\keys{9}~\keys{8}
+  \item[Arrêter]    \keys{*}~\keys{9}~\keys{9}~\keys{9}~\keys{9}
+  \item[Mode démo]  \keys{*}~\keys{8}~\keys{8}~\keys{8}~\keys{8}
+  \end{labeling}
+\end{multicols}
+
+
+\end{document}
