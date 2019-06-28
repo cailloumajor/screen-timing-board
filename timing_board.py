@@ -87,8 +87,8 @@ class App(tk.Frame):
         width = self.bottomline.winfo_width()
         pady = 0
         while self.bottomline.winfo_reqwidth() > width:
-            self.bottomline.font["size"] += 2
-            pady += 1
+            self.bottomline.font["size"] += 4
+            pady += 2
             self.bottomline.update_idletasks()
         self.bottomline.grid(row=1, columnspan=2, ipady=pady, sticky="nsew")
 
