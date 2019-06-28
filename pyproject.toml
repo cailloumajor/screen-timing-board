@@ -6,7 +6,7 @@ authors = ["Arnaud Rocher <arnaud.roche3@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.5"
+python = "^3.7"
 Pillow = "^6.0"
 
 [tool.poetry.dev-dependencies]
